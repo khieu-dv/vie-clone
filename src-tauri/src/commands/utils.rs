@@ -15,6 +15,12 @@ struct NavigateOptions {
 
 use mac_address::get_mac_address;
 
+// use tauri::api::path::{download_dir, resolve_path};
+use dirs::download_dir;
+use std::fs;
+use std::env;
+use std::path::Path;
+
 #[tauri::command]
 pub fn util_open_path_location(mut path: &str) {
     let download_location = match read_file("VieClone/_temp/last_output_path.txt") {
@@ -116,4 +122,25 @@ pub fn generate_app_id(app: AppHandle) -> String {
         let id = rand::thread_rng().gen_range(1_000_000..9_999_999);
         format!("APP-{}", id)
     }
+}
+
+#[tauri::command]
+pub fn get_default_download_path(_app: tauri::AppHandle) -> String {
+    // Try to read the last used path
+    if let Ok(last_path) = read_file("VieClone/_temp/last_output_path.txt") {
+        if directory_exists(&last_path) {
+            return normalize_path(&last_path);
+        }
+    }
+
+    // Fallback to system's Downloads directory
+    let default_path = download_dir()
+        .map(|path| path.to_string_lossy().to_string())
+        .unwrap_or_else(|| "Downloads".to_string());
+
+    if !directory_exists(&default_path) {
+        let _ = create_directory(&default_path);
+    }
+
+    normalize_path(&default_path)
 }

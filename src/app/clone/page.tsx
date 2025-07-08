@@ -1,5 +1,6 @@
 // src/app/clone/page.tsx
 "use client";
+
 import { useEffect, useState } from "react";
 import {
     generateAppId,
@@ -14,6 +15,7 @@ import {
     isUrlPlaylist,
     useGlobalStore,
     useTauriEvents,
+    getDefaultDownloadPath, // Import the new command
 } from "../../lib/tauri/window";
 
 import {
@@ -136,7 +138,10 @@ export default function ClonePage() {
     const handleFolderSelect = async () => {
         try {
             const selectedPath = await selectFolderDialogAsync();
-            if (selectedPath) setOutputPath(selectedPath);
+            if (selectedPath) {
+                setOutputPath(selectedPath);
+                setConsoleOutput((prev) => `Selected folder: ${selectedPath}\n` + prev);
+            }
         } catch {
             setConsoleOutput((prev) => "Folder select failed\n" + prev);
         }
@@ -152,14 +157,23 @@ export default function ClonePage() {
     };
 
     useEffect(() => {
-        initializeDeviceId();
-        checkBootstrap();
-        if (!userConfig.valid) setUserConfig(createIPCUserConfig());
-        // Set default output path if not already set
-        if (!outputPath) {
-            setOutputPath("Downloads"); // Hardcoded default folder
-            setConsoleOutput((prev) => "Default output folder set to Downloads\n" + prev);
-        }
+        const initialize = async () => {
+            await initializeDeviceId();
+            await checkBootstrap();
+            if (!userConfig.valid) setUserConfig(createIPCUserConfig());
+            // Fetch and set default output path if not already set
+            if (!outputPath) {
+                try {
+                    const defaultPath = await getDefaultDownloadPath();
+                    setOutputPath(defaultPath);
+                    setConsoleOutput((prev) => `Default output folder set to: ${defaultPath}\n` + prev);
+                } catch (error) {
+                    setConsoleOutput((prev) => `Failed to fetch default folder: ${error}\n` + prev);
+                    setOutputPath("Downloads"); // Fallback to relative path
+                }
+            }
+        };
+        initialize();
     }, []);
 
     useEffect(() => {

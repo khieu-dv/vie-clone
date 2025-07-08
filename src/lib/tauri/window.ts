@@ -309,3 +309,13 @@ export function useTauriEvents() {
     };
   }, []);
 }
+
+
+export async function getDefaultDownloadPath(): Promise<string> {
+    try {
+        return await invoke<string>("get_default_download_path");
+    } catch (error) {
+        console.error("Failed to get default download path:", error);
+        throw error;
+    }
+}

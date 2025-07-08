@@ -38,6 +38,7 @@ pub fn run() {
             commands::update::update_start,
             commands::update::update_check,
             commands::utils::generate_app_id,
+            commands::utils::get_default_download_path,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
