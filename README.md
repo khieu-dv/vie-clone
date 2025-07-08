@@ -7,7 +7,7 @@
 
 You can download the latest Windows release (.exe) here:
 
-➡️ [Download VieClone for Windows](https://github.com/your-username/vieclone/releases/latest/download/VieClone-setup.exe)
+➡️ [Download VieClone for Windows](https://github.com/khieu-dv/vie-clone/releases/download/1.0.0/vieclone_tauri_0.1.0_x64-setup.exe)
 
 
 ## 🚀 Features
@@ -35,7 +35,7 @@ Make sure the following are installed on your system:
 ## 📦 Install & Setup
 
 ```bash
-git clone https://github.com/khieu-dv/vieclone.git
+git clone https://github.com/khieu-dv/vie-clone.git
 cd vieclone
 npm install
 ````
