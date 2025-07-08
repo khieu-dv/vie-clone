@@ -1,0 +1,74 @@
+{
+  "header": {
+    "home": "Home",
+    "posts": "Posts",
+    "chats": "Chats",
+    "videos": "Videos"
+  },
+  "home": {
+    "oneStopPlatform": "VieClone – Your Ultimate Software Development Learning Platform",
+    "learnIT": "Access high-quality programming tutorials, coding lessons, and developer resources—100% free and created by expert instructors.",
+    "viewAllPosts": "Browse All Programming Articles",
+    "shoppingExperience": "Learning Experience",
+    "latestBlogPosts": "Latest Developer Blog Posts",
+    "exploreArticles": "Discover trending tech guides, programming tips, and software tutorials",
+    "vieTopik": "VieClone – Top-Rated Hub for Learning Programming & IT",
+    "yourOneStopShop": "Master coding skills, prepare for IT certifications, and grow your tech career with our all-in-one learning platform—free access to premium content!",
+    "signUpNow": "Create a Free Account",
+    "browseIT": "Explore IT Courses",
+    "customerTestimonialsTitle": "What Our Learners Say",
+    "customerTestimonialsSubtitle": "See how developers and students around the world are growing with VieClone",
+    "testimonial1": {
+      "quote": "VieClone gave me the confidence to pass my IT certification with ease.",
+      "name": "Nguyen Minh Anh",
+      "role": "International Computer Science Student"
+    },
+    "testimonial2": {
+      "quote": "Learning coding through VieClone is engaging, efficient, and fun!",
+      "name": "Tran Hai Nam",
+      "role": "Full-time Office Professional"
+    },
+    "testimonial3": {
+      "quote": "With VieClone, my programming skills improved faster than any other platform.",
+      "name": "Le Thanh Huong",
+      "role": "University Student – Software Engineering"
+    }
+  },
+  "posts": {
+    "title": "All Programming Articles and Guides"
+  },
+  "videos": {},
+  "chats": {},
+  "footer": {
+    "aboutUs": "About VieClone",
+    "careers": "Join Our Team",
+    "blog": "Developer Blog – Programming Tips & IT News",
+    "contact": "Contact Support",
+    "helpCenter": "Help Center for Developers",
+    "faq": "FAQs – Coding, Courses & Platform Info",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Use",
+    "followUs": "Connect With Us on Social Media",
+    "footerNote": "© 2025 VieClone. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Preferences",
+    "sitemap": "Website Sitemap",
+    "followUsYoutube": "Subscribe to Our YouTube Channel",
+    "chats": {
+      "chatWithUs": "Live Chat Support",
+      "chatWithFriend": "Connect with Fellow Developers",
+      "placeholderMessage": "Write a message...",
+      "sendButton": "Send Message"
+    },
+    "videos": {
+      "allVideos": "All Video",
+      "tiktokVideos": "Short TikTok Videos"
+    },
+    "posts": {
+      "allPosts": "Browse Articles",
+      "ginCourse": "Learn Gin Framework (Go)",
+      "GoCourse": "Go Programming Language Course"
+    }
+  }
+}
