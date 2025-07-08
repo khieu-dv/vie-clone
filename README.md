@@ -63,7 +63,6 @@ This will:
 To generate a production-ready desktop application:
 
 ```bash
-npm run build         # Build Next.js frontend
 npx tauri build       # Build Tauri app for your OS
 ```
 
