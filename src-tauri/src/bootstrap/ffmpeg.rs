@@ -1,5 +1,4 @@
 use std::{fs::File, io::BufReader};
-
 use crate::bin::FFMPEG_PATH;
 use crate::logger::logger::IPCLogger;
 use crate::utils::{directory::create_directory, file::file_exists, net::download_file_async};
@@ -75,7 +74,6 @@ pub async fn bootstrap_ffmpeg(logger: &IPCLogger) {
 fn extract_ffmpeg() -> std::io::Result<()> {
     use tar::Archive;
     use xz2::read::XzDecoder;
-
     use crate::utils::{file::copy_file, linux::linux_permit_file};
 
     let file = File::open("VieClone/_temp/ffmpeg.tar.xz")?;
@@ -89,6 +87,58 @@ fn extract_ffmpeg() -> std::io::Result<()> {
     );
 
     linux_permit_file(FFMPEG_PATH, 0o111);
+
+    Ok(())
+}
+
+// Thêm hỗ trợ cho macOS
+#[cfg(target_os = "macos")]
+pub async fn bootstrap_ffmpeg(logger: &IPCLogger) {
+    if file_exists(FFMPEG_PATH) {
+        return;
+    }
+
+    let _ = create_directory("VieClone/bin");
+    let _ = create_directory("VieClone/_temp");
+
+    logger.log("Downloading FFmpeg...");
+    let _ = download_file_async(
+        "https://evermeet.cx/ffmpeg/getrelease/zip",
+        "VieClone/_temp/ffmpeg.zip",
+    ).await;
+    logger.log("Downloaded FFmpeg to: \"VieClone/_temp/ffmpeg.zip\"");
+
+    logger.log("Extracting FFmpeg...");
+    let _ = extract_ffmpeg_macos();
+    logger.log(&format!("Extracted FFmpeg to \"{}\"", FFMPEG_PATH));
+}
+
+#[cfg(target_os = "macos")]
+fn extract_ffmpeg_macos() -> zip::result::ZipResult<()> {
+    use std::io::{copy, BufWriter};
+    use zip::ZipArchive;
+    use crate::utils::macos::macos_permit_file;
+
+    let filepath: File = File::open("VieClone/_temp/ffmpeg.zip")?;
+    let mut zip: ZipArchive<BufReader<File>> = ZipArchive::new(BufReader::new(filepath))?;
+
+    for i in 0..zip.len() {
+        let mut file: zip::read::ZipFile<'_, BufReader<File>> = zip.by_index(i)?;
+
+        let filename = match file.name().rsplit('/').next() {
+            Some(value) => value,
+            _ => "",
+        };
+
+        if filename == "ffmpeg" {
+            let mut outfile: BufWriter<File> = BufWriter::new(File::create(FFMPEG_PATH)?);
+            copy(&mut file, &mut outfile)?;
+            
+            // Cấp quyền thực thi cho file
+            macos_permit_file(FFMPEG_PATH, 0o755);
+            break;
+        }
+    }
 
     Ok(())
 }

@@ -41,3 +41,27 @@ pub async fn bootstrap_ytdlp(logger: &IPCLogger) {
 
     logger.log(&format!("Downloaded yt-dlp to \"{}\"", YTDLP_PATH));
 }
+
+// Thêm hỗ trợ cho macOS
+#[cfg(target_os = "macos")]
+pub async fn bootstrap_ytdlp(logger: &IPCLogger) {
+    use crate::utils::macos::macos_permit_file;
+
+    if file_exists(YTDLP_PATH) {
+        return;
+    }
+
+    let _ = create_directory("VieClone/bin");
+
+    logger.log("Downloading yt-dlp...");
+    let _ = download_file_async(
+        "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos",
+        YTDLP_PATH,
+    )
+    .await;
+
+    // Cấp quyền thực thi cho file
+    macos_permit_file(YTDLP_PATH, 0o755);
+
+    logger.log(&format!("Downloaded yt-dlp to \"{}\"", YTDLP_PATH));
+}

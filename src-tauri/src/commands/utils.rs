@@ -71,6 +71,18 @@ pub fn util_open_path_location(mut path: &str) {
     navigate_to(&navigate_options);
 }
 
+#[cfg(target_os = "macos")]
+fn navigate_to(navigate_options: &NavigateOptions) {
+    let path: String = normalize_path(&navigate_options.path.clone());
+    
+    let _ = if navigate_options.navigate_into {
+        Command::new("open").arg(path).status()
+    } else {
+        Command::new("open").arg("-R").arg(path).status()
+    };
+}
+
+
 #[cfg(target_os = "windows")]
 fn navigate_to(navigate_options: &NavigateOptions) {
     use crate::utils::file::normalize_path_windows;

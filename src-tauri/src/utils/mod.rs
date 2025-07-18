@@ -6,3 +6,4 @@ pub mod net;
 pub mod process;
 pub mod serial;
 pub mod string;
+pub mod macos;
